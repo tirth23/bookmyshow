@@ -39,9 +39,9 @@ If the server denies the request:
 - If the preflight is successful, the browser sends the actual request.
 - If the preflight fails, the browser blocks the actual request.
 
-Frontend (React app): Running on http://localhost:3000
-Backend (API server): Running on http://localhost:8081
 ### If you try to make a fetch request from the React app to the API server, the browser will block it unless the server sends back the appropriate CORS headers.
+Frontend (React app): Running on http://localhost:3000,
+Backend (API server): Running on http://localhost:8081
 
 ## Proxy
 ### In development, dealing with CORS can be a hassle, so we use a proxy to make it easier.
