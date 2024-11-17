@@ -28,14 +28,14 @@ npm install react-router-dom antd axios
   - Access-Control-Request-Method: The HTTP method (e.g., PUT, DELETE) of the actual request.
   - Access-Control-Request-Headers: Any custom headers to be sent in the actual request.
 ### Server Responds to the Preflight Request:-
-1) If the server allows the request, it responds with specific headers: 
+If the server allows the request, it responds with specific headers: 
 - Responds with 200 OK.
 - Includes CORS headers such as
   - Access-Control-Allow-Origin: Specifies which origins can access the resource.
   - Access-Control-Allow-Methods: Specifies which HTTP methods (GET, POST, etc.) are allowed.
   - Access-Control-Allow-Headers: Specifies which headers can be used in the actual request.
   - Access-Control-Max-Age: Indicates how long the results of the preflight request can be cached.
-2) If the server denies the request:
+If the server denies the request:
 - Responds with an error or no CORS headers.
 ### Browser Proceeds with the Actual Request (or Cancels):
 - If the preflight is successful, the browser sends the actual request.
