@@ -21,9 +21,9 @@ npm install react-router-dom antd axios
 ### Headers: Only simple headers (Accept, Accept-Language, Content-Type with values like text/plain, application/x-www-form-urlencoded, or multipart/form-data).
 ### No preflight request is sent for these.
 ### Non-Simple Requests:-
-### Methods like PUT, DELETE, or PATCH.
-### Custom headers (e.g., Authorization, X-Custom-Header).
-### Requests that use non-simple Content-Type (e.g., application/json).
+- Methods like PUT, DELETE, or PATCH.
+- Custom headers (e.g., Authorization, X-Custom-Header).
+- Requests that use non-simple Content-Type (e.g., application/json).
 ### Response with Headers:-
 ### If the server allows the request, it responds with specific headers: 
 ### Access-Control-Allow-Origin: Specifies which origins can access the resource.
