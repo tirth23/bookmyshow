@@ -35,6 +35,7 @@ If the server allows the request, it responds with specific headers:
   - Access-Control-Allow-Methods: Specifies which HTTP methods (GET, POST, etc.) are allowed.
   - Access-Control-Allow-Headers: Specifies which headers can be used in the actual request.
   - Access-Control-Max-Age: Indicates how long the results of the preflight request can be cached.
+  
 If the server denies the request:
 - Responds with an error or no CORS headers.
 ### Browser Proceeds with the Actual Request (or Cancels):
