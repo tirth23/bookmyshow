@@ -21,18 +21,25 @@ npm install react-router-dom antd axios
 - Custom headers (e.g., Authorization, X-Custom-Header).
 - Requests that use non-simple Content-Type (e.g., application/json).
 - preflight request is necessary
-### Browser Sends a Preflight Request (OPTIONS):
+### Browser Sends a Preflight Request (OPTIONS):-
 - Method: OPTIONS
 - Headers:
   - Origin: The origin of the requesting site (e.g., http://example.com).
   - Access-Control-Request-Method: The HTTP method (e.g., PUT, DELETE) of the actual request.
   - Access-Control-Request-Headers: Any custom headers to be sent in the actual request.
-### Response with Headers:-
-### If the server allows the request, it responds with specific headers: 
-- Access-Control-Allow-Origin: Specifies which origins can access the resource.
-- Access-Control-Allow-Methods: Specifies which HTTP methods (GET, POST, etc.) are allowed.
-- Access-Control-Allow-Headers: Specifies which headers can be used in the actual request.
-- Access-Control-Max-Age: Indicates how long the results of the preflight request can be cached.
+### Server Responds to the Preflight Request:-
+1) If the server allows the request, it responds with specific headers: 
+- Responds with 200 OK.
+- Includes CORS headers such as
+  - Access-Control-Allow-Origin: Specifies which origins can access the resource.
+  - Access-Control-Allow-Methods: Specifies which HTTP methods (GET, POST, etc.) are allowed.
+  - Access-Control-Allow-Headers: Specifies which headers can be used in the actual request.
+  - Access-Control-Max-Age: Indicates how long the results of the preflight request can be cached.
+2) If the server denies the request:
+- Responds with an error or no CORS headers.
+### Browser Proceeds with the Actual Request (or Cancels):
+- If the preflight is successful, the browser sends the actual request.
+- If the preflight fails, the browser blocks the actual request.
 ### Frontend (React app): Running on http://localhost:3000
 ### Backend (API server): Running on http://localhost:8081
 ### If you try to make a fetch request from the React app to the API server, the browser will block it unless the server sends back the appropriate CORS headers.
