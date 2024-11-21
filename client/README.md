@@ -1,6 +1,6 @@
 ```
 npx create-react-app client
-npm install react-router-dom antd axios
+npm install react-router-dom antd @ant-design/icons axios @reduxjs/toolkit react-redux moment
 ```
 
 ### index.jsx is a file which is kind of default file in folder where bundler will look for if we have not mentioned any file while importing from that folder
@@ -8,8 +8,8 @@ npm install react-router-dom antd axios
 ## CORS
 ### CORS stands for Cross-Origin Resource Sharing. It's a security feature implemented by web browsers to control how resources (like HTML, JavaScript, or data) can be requested from another domain (origin) than the one that served the web page. When you make an API request from your frontend code (like a React app running on http://localhost:3000) to a backend server (like http://localhost:8081), the browser sees this as a "cross-origin" request because the ports are different. To protect users, browsers block these requests by default unless the server explicitly allows them. This prevents malicious websites from accessing sensitive data from other sites.
 ### The browser doesn’t need to “ask” the server if the request is cross-origin. It determines this entirely on its own by comparing the origin of the page making the request with the URL of the request. The browser compares the origin of the page (where the JavaScript is running) with the origin of the request URL. If the protocol, domain, or port is different, the browser classifies the request as cross-origin. Whether a preflight request is required for a POST request depends on whether it’s a simple request or not.
-Page Origin: http://localhost:3000
-POST Request URL: http://localhost:8082/api/data
+Page Origin: http://localhost:3000,
+POST Request URL: http://localhost:8082/api/data,
 Different port → Cross-origin
 ### Preflight Request: A preflight request is a part of the Cross-Origin Resource Sharing (CORS) mechanism used in modern web browsers. It ensures secure communication between a browser and a server when performing cross-origin HTTP requests that could have side effects on server data. A preflight request is an HTTP OPTIONS request sent by the browser to the server before the actual HTTP request is sent. It checks if the server permits the cross-origin request with the specific HTTP method and headers.
 ### Browsers enforce the same-origin policy, which restricts how resources on a page can be requested from another domain. For certain requests (those with methods or headers that are not considered "simple"), the browser sends a preflight request to ensure the target server explicitly allows the operation.

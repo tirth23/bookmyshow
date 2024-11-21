@@ -1,5 +1,5 @@
 const User = require("../model/userModel");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
@@ -47,10 +47,12 @@ const register = async (req, res) => {
 const login = async (req, res) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
-		// const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-		// 	expiresIn: "1d",
-		// });
-		// console.log("token", token);
+    console.log("req received", req.body, user);
+    //token created
+		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+			expiresIn: "1d",
+		});
+		console.log("token", token);
 		if (!user) {
 			return res.send({
 				success: false,
@@ -78,7 +80,7 @@ const login = async (req, res) => {
 			success: true,
 			message: "Login Successful",
 			user: user,
-			// data: token,
+			data: token,
 		});
 	} catch (err) {
 		console.log(err);
@@ -89,18 +91,25 @@ const login = async (req, res) => {
 	}
 };
 
-// const getCurrentUser = async (req, res) => {
-// 	const user = await User.findById(req.body.userId).select("-password");
-// 	console.log("found user", user);
-// 	res.send({
-// 		success: true,
-// 		data: user,
-// 		message: "You are authorized to go the protected route",
-// 	});
-// };
+/* 
+Once the middleware verifies the token and attaches the userId to the request body, 
+the /get-current-user route handler uses this userId to fetch and return the authenticated user's data except user's password 
+
+In postman, get token from login request and do post request to /get-current-user with that token as Auth field as Bearer Token
+*/
+const getCurrentUser = async (req, res) => {
+  //select everything from document except password
+	const user = await User.findById(req.body.userId).select("-password");
+	console.log("found user", user);
+	res.send({
+		success: true,
+		data: user,
+		message: "You are authorized to go the protected route",
+	});
+};
 
 module.exports = {
 	register,
 	login,
-	// getCurrentUser,
+	getCurrentUser,
 };

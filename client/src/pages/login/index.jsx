@@ -1,41 +1,38 @@
 import React, { useEffect } from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-// import { LoginUser } from "../../api/users";
+import { LoginUser } from "../../api/users";
 
 function Login() {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
-	// const onFinish = async (values) => {
-	// 	console.log(values);
-	// 	try {
-	// 		const response = await LoginUser(values);
-	// 		if (response.success) {
-	// 			message.success(response.message);
-	// 			localStorage.setItem("token", response.data);
-	// 			console.log(
-	// 				"adding token to local storage",
-	// 				localStorage.getItem("token")
-	// 			);
+	const onFinish = async (values) => {
+		console.log(values);
+		try {
+			const response = await LoginUser(values);
+			if (response.success) {
+				message.success(response.message);
+				localStorage.setItem("token", response.data);
+				console.log(
+					"adding token to local storage",
+					localStorage.getItem("token")
+				);
 
-	// 			navigate("/");
-	// 		} else {
-	// 			message.error(response.message);
-	// 		}
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
-
-	const hello = (values) => {
-		console.log("hello");
+				navigate("/");
+			} else {
+				message.error(response.message);
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	};
+
 	return (
 		<>
 			<main className="App-header">
 				<h1>Login to BookMyShow</h1>
 				<section className="mw-500 text-center px-3">
-					<Form layout="vertical">
+					<Form layout="vertical" onFinish={onFinish}>
 						<Form.Item
 							label="Email"
 							htmlFor="email"

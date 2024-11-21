@@ -2,9 +2,9 @@ const express = require("express");
 const {
 	register,
 	login,
-	// getCurrentUser,
+	getCurrentUser,
 } = require("../controllers/userControllers");
-// const auth = require("../middlewares/authMiddleware");
+const auth = require("../middlewares/authMiddleware");
 const UserModel = require("../model/userModel");
 // const EmailHelper = require("../utils/emailHelper");
 
@@ -16,7 +16,11 @@ userRouter.post("/register", register);
 // login for user
 userRouter.post("/login", login);
 
-// userRouter.get("/get-current-user", auth, getCurrentUser);
+/* 
+Only valid logged In user allowed to access getCurrentUser. 
+So, it is protected route so auth middleware is used to verify whether used is logged In or not 
+*/
+userRouter.get("/get-current-user", auth, getCurrentUser);
 
 // // function to generate token
 
