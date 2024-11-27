@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose bcryptjs jsonwebtoken dotenv
+npm install express mongoose bcryptjs jsonwebtoken dotenv stripe
 ```
 
 ## JSON Web Token JWT
