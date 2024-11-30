@@ -21,7 +21,7 @@ const app = express();
 //   },
 // }));
 // app.use(helmet());
-// app.use("/api/bookings/verify", express.raw({ type: "application/json" }));
+app.use("/api/bookings/verify", express.raw({ type: "application/json" }));
 app.use(express.json());
 connectDB();
 

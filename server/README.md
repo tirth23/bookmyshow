@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose bcryptjs jsonwebtoken dotenv stripe
+npm install express mongoose bcryptjs jsonwebtoken dotenv stripe nodemailer
 ```
 
 ## JSON Web Token JWT
@@ -60,4 +60,7 @@ Authorization: Bearer <token>
 ###
 ###
 ###
-###
+### GANB4HKAF9NTB2ALYASUDFYP
+
+signin sendgrid
+create api key with full access 
