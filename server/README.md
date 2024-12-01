@@ -63,7 +63,7 @@ Authorization: Bearer <token>
 ### Recipient's Email Server (Destination Post Office)
 ### Email Delivery (Mailbox Delivery): Finally, the recipient's email server delivers the email to the recipient's inbox, just as the postman delivers the letter to the recipient's mailbox.
 
-## (SendGrid)[https://app.sendgrid.com/]
+## [SendGrid](https://app.sendgrid.com/)
 ### SendGrid provides an SMTP (Simple Mail Transfer Protocol) server for sending emails. It is a popular cloud-based email delivery service that offers both SMTP and REST API interfaces for email delivery.
 ### SendGrid is a cloud-based service that provides email delivery and marketing tools to help businesses communicate effectively with their customers. It handles the complexities of sending large volumes of email and ensures high deliverability rates.
 ### SMTP Relay: Allows businesses to send emails through SendGrid's servers by conguring their SMTP settings.
@@ -72,7 +72,7 @@ Authorization: Bearer <token>
 ### Analytics: Tracks email metrics such as opens, clicks, bounces, and spam reports.
 ### Deliverability: Implements best practices to ensure emails reach the inbox and not the spam folder.
 ### Users sign up for a SendGrid account and verify their domain and sender identities to improve email deliverability.
-### create api key with full access 
+### Create api key with full access 
 ### Single Sender Verification: Add and verify a specific email address [Ref](https://www.twilio.com/docs/sendgrid/ui/sending-email/sender-verification)
 ### Uers can congure their applications to send emails via SendGrid's SMTP relay or using the SendGrid API.
 ### Emails are sent from the application to SendGrid, which then processes and delivers them to recipients' inboxes.
@@ -86,8 +86,8 @@ Authorization: Bearer <token>
 ### Email Composition: NodeMailer helps you compose emails, including setting the sender and recipient addresses, subject, body (both text and HTML), and attachments.
 ### Sending Emails: Once the email is composed, NodeMailer handles the communication with the SMTP server to send the email.
 ### You can use NodeMailer to connect to SendGrid's SMTP service to send emails. This allows you to leverage SendGrid's email delivery capabilities within Node.js application.
-### Limitations: An HTML email that looks ne in one email client might appear broken or differently in another. Email clients do not support the full range of HTML and CSS features that modern web browsers do. Generally tables are used for layouting.
-### Transport Conguration: A transport method is congured, specifying the email service provider's details (e.g., SMTP server, port, authentication).
+### Limitations: An HTML email that looks fine in one email client might appear broken or differently in another. Email clients do not support the full range of HTML and CSS features that modern web browsers do. Generally tables are used for layouting.
+### Transport Conguration: A transport method is configured, specifying the email service provider's details (e.g., SMTP server, port, authentication).
 ### Email Composition: Email details, including sender, recipient, subject, and content, are composed.
-### Sending Emails: The composed email is sent using the congured transport method.
+### Sending Emails: The composed email is sent using the configured transport method.
 ### SendGrid provides the infrastructure for sending emails, ensuring high deliverability and providing analytics. Nodemailer simplies the process of composing and sending emails in Node.js applications.
