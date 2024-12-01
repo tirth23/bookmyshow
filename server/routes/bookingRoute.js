@@ -121,7 +121,7 @@ router.get("/get-all-bookings", auth, async (req, res) => {
 				path: "show",
 				populate: {
 					path: "theatre",
-					model: "theatres",
+					model: "theatre",
 				},
 			});
 		res.send({

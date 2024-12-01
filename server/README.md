@@ -55,7 +55,7 @@ Authorization: Bearer <token>
 ```
 ### Server Validation: The server receives the JWT (typically in the Authorization header as Bearer <token>). It decodes the header and payload (Base64-encoded data). The server checks the token's signature to ensure it wasn't tampered with. This process depends on the signing algorithm used. eg, In HMAC (e.g., HS256), A secret key is shared between the issuer and the server. The server recalculates the signature using the header and payload with its secret key. Compares it to the signature in the token. If they match, the token is valid. If the JWT is valid, the server processes the request; otherwise, it rejects the request.
 
-###
+### 
 ###
 ###
 ###
@@ -64,3 +64,4 @@ Authorization: Bearer <token>
 
 signin sendgrid
 create api key with full access 
+Single Sender Verification: Add and verify a specific email address (e.g., yourname@domain.com)
