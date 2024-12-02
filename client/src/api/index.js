@@ -22,7 +22,7 @@ The authorization field in the headers object of the Axios instance is crucial f
 ensuring that only authorized users can access protected resources.
 */
 export const axiosInstance = axios.create({
-	// baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:3000/",
+	baseURL: "http://localhost:3000/",
 	headers: {
 		"Content-Type": "application/json",
 		// 'authorization': `Bearer ${localStorage.getItem('token')}`
