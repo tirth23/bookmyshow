@@ -107,4 +107,5 @@ Build Command: cd client && npm install && npm run build && cd ../server && npm 
 till build it is for frontend and rest for BE
 Start Command: cd server && npm start
 choose free
-
+add env variables
+DEPLOY

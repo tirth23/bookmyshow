@@ -34,7 +34,7 @@ app.use(express.static(clientBuildPath));
 app.use(
 	cors({
 		origin: "*", //allow from all origin
-		methods: ["GET", "POST", "PUT", "DELETE"],
+		methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 	})
 );
@@ -67,6 +67,12 @@ app.use((req, res) => {
 	res.status(404).json({ message: "Route not found" });
 });
 
-app.listen(8082, () => {
-	console.log("Server is running on port 8082");
+// app.listen(8082, () => {
+// 	console.log("Server is running on port 8082");
+// });
+
+const PORT = process.env.PORT || 8082; // Use the PORT provided by Render or fallback to 8082 for local development
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
