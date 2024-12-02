@@ -107,6 +107,11 @@ router.post("/book-show", auth, async (req, res) => {
 
 router.get("/get-all-bookings", auth, async (req, res) => {
 	try {
+    /* 
+    The populate method in Mongoose is used to replace a path in the document with the document(s) from another collection.
+    This performs a nested populate. First, it populates the show field in the Booking document, 
+    then it populates the movie field within the show document with the corresponding Movie document from the movies collection. 
+    */
 		const bookings = await Booking.find({ user: req.body.userId })
 			.populate("user")
 			.populate("show")

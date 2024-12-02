@@ -54,6 +54,7 @@ userRouter.patch("/forgetpassword", async (req, res) => {
 		const otp = otpGenerator(); // give me a six digit otp
 		user.otp = otp;
 		user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+		// those updates will be send to the db
 		await user.save();
 		// sending email
 		await EmailHelper("otp.html", user.email, { name: user.name, otp: otp });
@@ -61,6 +62,7 @@ userRouter.patch("/forgetpassword", async (req, res) => {
 			success: true,
 			message: "OTP sent to your email",
 		});
+		// send the mail to there email -> otp
 	} catch (err) {
 		console.log(err);
 	}
@@ -76,6 +78,7 @@ userRouter.patch("/resetpassword/:email", async (req, res) => {
 			});
 		}
 
+    // it will serach with the id -> user
 		const user = await UserModel.findOne({ email: req.params.email });
 		if (user === null) {
 			return res.status(404).json({
@@ -83,7 +86,10 @@ userRouter.patch("/resetpassword/:email", async (req, res) => {
 				message: "User not found",
 			});
 		}
-		// if otp is expired
+		/* 
+    When the user provides the OTP back to the server, the server checks if the provided OTP matches the one stored in the otp
+    field and if the current time is before the otpExpiry time. 
+    */
 		if (user.otpExpiry < new Date()) {
 			return res.status(400).json({
 				success: false,
@@ -99,6 +105,7 @@ userRouter.patch("/resetpassword/:email", async (req, res) => {
 		}
 
 		user.password = resetDetails.password;
+    // remove the otp from the user
 		user.otp = undefined;
 		user.otpExpiry = undefined;
 		await user.save();

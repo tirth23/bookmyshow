@@ -1,6 +1,6 @@
 const User = require("../model/userModel");
 const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
 	try {
@@ -12,14 +12,14 @@ const register = async (req, res) => {
 			});
 		}
 
-		// // hash the password
-		// const saltRounds = 10; // higher the number, more secure the password but more time it will take to hash
-		// const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-		// console.log("hashedPassword", hashedPassword);
+		// hash the password
+		const saltRounds = 10; // higher the number, more secure the password but more time it will take to hash
+		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+		console.log("hashedPassword", hashedPassword);
 
 		const newUser = new User({
 			...req.body,
-			// password: hashedPassword,
+			password: hashedPassword,
 		});
 
 		await newUser.save();
@@ -33,16 +33,16 @@ const register = async (req, res) => {
 	}
 };
 
-// async function hashPassword(password) {
-// 	console.time("time taken");
-// 	const salt = await bcrypt.genSalt(12);
-// 	console.log("salt", salt);
-// 	const hashedPassword = await bcrypt.hash(password, salt);
-// 	console.log("hashedPassword", hashedPassword);
-// 	console.timeEnd("time taken");
-// 	console.log("**************");
-// 	return hashedPassword;
-// }
+async function hashPassword(password) {
+	console.time("time taken");
+	const salt = await bcrypt.genSalt(12);
+	console.log("salt", salt);
+	const hashedPassword = await bcrypt.hash(password, salt);
+	console.log("hashedPassword", hashedPassword);
+	console.timeEnd("time taken");
+	console.log("**************");
+	return hashedPassword;
+}
 
 const login = async (req, res) => {
 	try {
@@ -59,22 +59,22 @@ const login = async (req, res) => {
 				message: "User not found. Please register",
 			});
 		}
-		if (req.body.password !== user.password) {
-			return res.send({
-				success: false,
-				message: "Sory, Invalid password",
-			});
-		}
-
-		// const isMatch = await bcrypt.compare(req.body.password, user.password);
-		// if (!isMatch) {
+		// if (req.body.password !== user.password) {
 		// 	return res.send({
 		// 		success: false,
 		// 		message: "Sory, Invalid password",
 		// 	});
 		// }
-		// const password = "Ayush@123";
-		// hashPassword(password);
+
+		const isMatch = await bcrypt.compare(req.body.password, user.password);
+		if (!isMatch) {
+			return res.send({
+				success: false,
+				message: "Sory, Invalid password",
+			});
+		}
+		const password = "Ayush@123";
+		hashPassword(password);
 
 		res.send({
 			success: true,

@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose bcryptjs jsonwebtoken dotenv stripe nodemailer
+npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt
 ```
 
 ## JSON Web Token JWT
@@ -91,3 +91,10 @@ Authorization: Bearer <token>
 ### Email Composition: Email details, including sender, recipient, subject, and content, are composed.
 ### Sending Emails: The composed email is sent using the configured transport method.
 ### SendGrid provides the infrastructure for sending emails, ensuring high deliverability and providing analytics. Nodemailer simplies the process of composing and sending emails in Node.js applications.
+
+
+
+new 
+web service
+connect with github
+select repo
