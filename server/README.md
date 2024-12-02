@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt
+npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt cors
 ```
 
 ## JSON Web Token JWT
@@ -93,8 +93,18 @@ Authorization: Bearer <token>
 ### SendGrid provides the infrastructure for sending emails, ensuring high deliverability and providing analytics. Nodemailer simplies the process of composing and sending emails in Node.js applications.
 
 
+create static build for react
+add path of it inside server to server static html file
+remove proxy from package.json
+Now cors issue will come so use cors module
 
+Render
 new 
 web service
 connect with github
-select repo
+select repo to connect
+Build Command: cd client && npm install && npm run build && cd ../server && npm install  
+till build it is for frontend and rest for BE
+Start Command: cd server && npm start
+choose free
+

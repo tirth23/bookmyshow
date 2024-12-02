@@ -84,3 +84,5 @@ package.json
 ### Secret Key: The secret key, also known as the API key, is used on the server-side of your application to authenticate API requests to Stripe. This key must be kept condential and should never be exposed in frontend code or client-side applications.The secret key, also known as the API key, is used on the server-side of your application to authenticate API requests to Stripe. This key must be kept condential and should never be exposed in frontend code or client-side applications.
 ### [Ref](https://dashboard.stripe.com/test/dashboard)
 ### [Test Card Number](https://docs.stripe.com/testing?testing-method=card-numbers#visa)
+
+Remove   "proxy": "http://localhost:8082" from package.json when deployed

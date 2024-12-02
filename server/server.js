@@ -2,6 +2,8 @@ const express = require("express");
 require("dotenv").config(); // To access the environment variables
 // const rateLimit = require("express-rate-limit");
 // const helmet = require("helmet");
+const path = require("path");
+const cors = require("cors");
 
 const connectDB = require("./config/dbconfig");
 const userRouter = require("./routes/userRoute");
@@ -21,6 +23,22 @@ const app = express();
 //   },
 // }));
 // app.use(helmet());
+
+//first run npm run build inside client
+const clientBuildPath = path.join(__dirname, "../client/build");
+console.log(clientBuildPath);
+
+// Serve static files from the React app
+app.use(express.static(clientBuildPath));
+
+app.use(
+	cors({
+		origin: "*", //allow from all origin
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+	})
+);
+
 app.use("/api/bookings/verify", express.raw({ type: "application/json" }));
 app.use(express.json());
 connectDB();
@@ -41,10 +59,14 @@ app.use("/api/theatres", theatreRouter);
 app.use("/api/shows", showRouter);
 app.use("/api/bookings", bookingRouter);
 
+app.get("*", (req, res) => {
+	res.sendFile(path.join(clientBuildPath, "index.html"));
+});
+
 app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
+	res.status(404).json({ message: "Route not found" });
 });
 
 app.listen(8082, () => {
-  console.log("Server is running on port 8082");
+	console.log("Server is running on port 8082");
 });
