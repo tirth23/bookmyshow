@@ -29,7 +29,6 @@ app.use(helmet());
 //first run npm run build inside client
 const clientBuildPath = path.join(__dirname, "../client/build");
 console.log(clientBuildPath);
-
 // Serve static files from the React app
 app.use(express.static(clientBuildPath));
 

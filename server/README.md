@@ -137,8 +137,8 @@ Authorization: Bearer <token>
 ### The express-mongo-sanitize package works by checking for keys in objects that begin with $ or contain .. These characters are used in MongoDB queries for operators and thus could be exploited for injection attacks. The middleware strips these characters from the input, effectively sanitizing it. By adding app.use(mongoSanitize());, the server ensures that any malicious input attempting to manipulate MongoDB queries is sanitized, providing a layer of protection against injection attacks.
 
 ## Deployment
-- Create static build for react
-- Add path of it inside server to server static html file
+- Create static production build for react using npm run build
+- Add build path of it inside server.js to server static html file. app.use(express.static(clientBuildPath)) tells the Express application to serve static les from the clientBuildPath directory. This means any requests for static assets like JavaScript les, CSS files, images, etc., will be served from the client/build directory. app.get("*", (req, res) => { res.sendFile(path.join(clientBuildPath, "index.html")); }); sets up a catch-all route. The * wildcard matches any route that hasn’t been matched by previous route handlers. This route handler serves the index.html le for any request that doesn't match a static le or an API route. This is particularly important for single-page applications (SPAs) like React, where routing is handled client-side. Serving the index.html le ensures that the React app can take over routing from there.
 - Remove proxy from package.json, Now cors issue will come so use cors module
 - src/api/index -> remove baseURL from axiosInstance or add baseURL as BE URL
 - Open (Render)[https://dashboard.render.com/], new -> web service -> connect with github -> select repo to connect
