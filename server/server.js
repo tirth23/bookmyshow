@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config(); // To access the environment variables
-// const rateLimit = require("express-rate-limit");
-// const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 const path = require("path");
 const cors = require("cors");
 
@@ -13,16 +13,16 @@ const showRouter = require("./routes/showRoute");
 const bookingRouter = require("./routes/bookingRoute");
 
 const app = express();
-// app.use(helmet.contentSecurityPolicy({
-//   directives: {
-//     defaultSrc: ["'self'"],
-//     scriptSrc: ["'self'", "'unsafe-inline'"],
-//     styleSrc: ["'self'", "https://fonts.googleapis.com"],
-//     fontSrc: ["'self'", "https://fonts.gstatic.com"],
-//     imgSrc: ["'self'", "data:"],
-//   },
-// }));
-// app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-inline'"],
+    styleSrc: ["'self'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    imgSrc: ["'self'", "data:"],
+  },
+}));
+app.use(helmet());
 
 //first run npm run build inside client
 const clientBuildPath = path.join(__dirname, "../client/build");
@@ -33,7 +33,7 @@ app.use(express.static(clientBuildPath));
 
 app.use(
 	cors({
-		origin: "*", //allow from all origin
+		origin: "https://bookmyshow-5ul0.onrender.com", //use "*" to allow from all origin
 		methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 	})
@@ -44,13 +44,13 @@ app.use(express.json());
 connectDB();
 
 // rate limit middleware
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // limit each IP to 100 requests per windowMs
-//   message: "Too many requests from this IP, please try again after 15 minutes",
-// });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
 
-// app.use(limiter);
+app.use(limiter);
 
 /** Routes */
 app.use("/api/users", userRouter);

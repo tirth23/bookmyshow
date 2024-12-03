@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt cors
+npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt cors express-rate-limit helmet
 ```
 
 ## JSON Web Token JWT
@@ -92,6 +92,30 @@ Authorization: Bearer <token>
 ### Sending Emails: The composed email is sent using the configured transport method.
 ### SendGrid provides the infrastructure for sending emails, ensuring high deliverability and providing analytics. Nodemailer simplies the process of composing and sending emails in Node.js applications.
 
+## Security - bcrypt
+### There are three general guidelines for security basis on which we design our backend
+### Zero Trust Model: "Never Trust, Always Verify". Assume that no one (neither inside nor outside the network) is trustworthy. This means always verifying the authenticity of users, services, and systems before granting access to resources. Implement strong authentication mechanisms, validate and sanitize all inputs, and regularly audit logs and activities.
+### Principle of Least Privilege: "Minimal Access for Maximum Security”. Each user, program, or system should have the least amount of privilege necessary to perform its function. This limits the potential damage in case of a security breach.
+### Reduce Attack Surface: "Minimize Risk by Minimizing Exposure". The attack surface refers to the total number of points (like software, services, and ports) where an unauthorized user can try to enter data or extract data from the environment. Reducing the attack surface minimizes the potential entry points for attackers.
+### To store passwords securely, we can use a hashing algorithm like bcrypt.
+### Predictability of Hashes: For a given input and a known hashing algorithm, the generated hash will always be the same. Example: For the input "password", the hash might be asfdad123r2#$%. For the input "12345678", the hash might be asd12!@#%
+### Brute Force Attacks: If an attacker wants to break into a system, the rst step they might take is to perform a brute force attack using a dictionary of the most commonly used passwords and their corresponding hashes.
+### The Role of Salting: Modern password hashing techniques use a 'salt' - a random value added to the password before hashing. This ensures that even common passwords result in unique hashes. For example, "password" with different salts won't hash to asfdad123r2#$% every time.
+### Why Salting Matters: Without salting, common passwords remain vulnerable because their hashes can be precomputed and stored in lookup tables (rainbow tables). Even if a system uses salts, if the salt is known to the attacker, they can still perform targeted attacks, but the use of unique salts for each password signicantly increases the complexity and time required for such attacks.
+### Generate a hash for password here - https://www.md5hashgenerator.com/
+### Decrypt the hash here - https://10015.io/tools/md5-encrypt-decrypt#google_vignette
+### Emphasizing the problem: A modern server can calculate the MD5 encryption at crazy speed. If your users have passwords which are lowercase, alphanumeric, and 6 characters long, you can try every single possible password of that size in around 40 seconds. By spending a 1000 dollars or so you can crack millions of commonly used passwords. Salts also do not help there.
+### Bcrypt is a password hashing function that incorporates a salt to protect against rainbow table attacks. It’s designed to be computationally intensive to slow down brute-force attacks.
+### It slows down the process of generating the hash. Instead of cracking a password every 40 seconds, I’d be cracking them every 12 years or so.
+### https://codahale.com/how-to-safely-store-a-password/
+### Bcrypt is not an encryption algorithm like SHA256; rather, it is a password hashing function. Bcrypt is specically designed for securing passwords. It turns a plain-text password into a hash, which is a fixed-size string of characters that uniquely represents the password. Bcrypt automatically handles salt generation. A salt is a random value added to the password before hashing to ensure that the same password results in different hashes.
+### Work Factor: One of the key features of bcrypt is its work factor, which is a measure of how slow the hashing process is. The ability to adjust the work factor is crucial to keeping up with increasing computational power and maintaining the security of the hashes over time.
+### Hashing vs. Encryption: Encryption is a reversible process (you encrypt data to later decrypt it), while the hashing function that bcrypt uses is one-way (once you hash data, you can't turn the hash back into the original data).This is useful for storing passwords because even if the hash is exposed, the original password cannot be easily recovered. It stores hash when user register and in hash first string before . represent salt. When user login again, hashfunction use sam salt and incoming password and check whether generated hash same as hash stored in DB
+### So the idea is that using bcrypt will make things a little slow so we use it only for the most sensitive data - password
+### Owasp - https://owasp.org/www-project-top-ten/
+### Search for owasp bcrypt and open the cheatsheet for storage - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_ Cheat_Sheet.html
+
+
 
 create static build for react
 add path of it inside server to server static html file
@@ -109,3 +133,5 @@ Start Command: cd server && npm start
 choose free
 add env variables
 DEPLOY
+
+
