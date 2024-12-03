@@ -14,15 +14,41 @@ const showRouter = require("./routes/showRoute");
 const bookingRouter = require("./routes/bookingRoute");
 
 const app = express();
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
-    styleSrc: ["'self'", "https://fonts.googleapis.com"],
-    fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    imgSrc: ["'self'", "data:"],
-  },
-}));
+app.use(
+	helmet.contentSecurityPolicy({
+		directives: {
+			defaultSrc: ["'self'"],
+			scriptSrc: ["'self'", "'unsafe-inline'"],
+			styleSrc: ["'self'", "https://fonts.googleapis.com"],
+			fontSrc: ["'self'", "https://fonts.gstatic.com"],
+			imgSrc: ["'self'", "data:"],
+		},
+	})
+);
+
+// app.use(
+// 	helmet({
+// 		contentSecurityPolicy: {
+// 			directives: {
+// 				defaultSrc: ["'self'"],
+// 				scriptSrc: [
+// 					"'self'",
+// 					"'unsafe-inline'",
+// 					"'unsafe-eval'",
+// 					"https://bookmyshow-5ul0.onrender.com",
+// 					URL,
+// 				],
+// 				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+// 				imgSrc: ["'self'", "data:", "https://bookmyshow-5ul0.onrender.com"],
+// 				connectSrc: ["'self'", "https://bookmyshow-5ul0.onrender.com"],
+// 				fontSrc: ["'self'", "https://fonts.gstatic.com"],
+// 				objectSrc: ["'none'"],
+// 				upgradeInsecureRequests: [],
+// 			},
+// 		},
+// 	})
+// );
+
 app.use(helmet());
 // app.disable("x-powered-by"); // it will remove the x-powered-by header from the response
 
@@ -55,9 +81,9 @@ The apiLimiter variable congures the rate limiter with a time window of 15 minut
 window. If the limit is exceeded, a message is sent to the client.
 */
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
-  message: "Too many requests from this IP, please try again after 15 minutes",
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	message: "Too many requests from this IP, please try again after 15 minutes",
 });
 
 app.use(limiter);
@@ -84,5 +110,5 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 8082; // Use the PORT provided by Render or fallback to 8082 for local development
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+	console.log(`Server is running on port ${PORT}`);
 });
