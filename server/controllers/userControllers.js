@@ -35,6 +35,7 @@ const register = async (req, res) => {
 
 async function hashPassword(password) {
 	console.time("time taken");
+  //explicitly generating salt
 	const salt = await bcrypt.genSalt(12);
 	console.log("salt", salt);
 	const hashedPassword = await bcrypt.hash(password, salt);
@@ -73,8 +74,10 @@ const login = async (req, res) => {
 				message: "Sory, Invalid password",
 			});
 		}
-		const password = "Ayush@123";
-		hashPassword(password);
+    
+    // // check how salt works
+		// const password = "Tirth@123";
+		// hashPassword(password);
 
 		res.send({
 			success: true,

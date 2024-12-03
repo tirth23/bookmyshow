@@ -4,6 +4,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const path = require("path");
 const cors = require("cors");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const connectDB = require("./config/dbconfig");
 const userRouter = require("./routes/userRoute");
@@ -23,6 +24,7 @@ app.use(helmet.contentSecurityPolicy({
   },
 }));
 app.use(helmet());
+// app.disable("x-powered-by"); // it will remove the x-powered-by header from the response
 
 //first run npm run build inside client
 const clientBuildPath = path.join(__dirname, "../client/build");
@@ -39,14 +41,23 @@ app.use(
 	})
 );
 
+// Sanitize user input to prevent MongoDB Operator Injection
+app.use(mongoSanitize());
+
 app.use("/api/bookings/verify", express.raw({ type: "application/json" }));
 app.use(express.json());
 connectDB();
 
-// rate limit middleware
+/* 
+rate limit middleware: This middleware helps protect your server from being overwhelmed by too many requests 
+from the same IP address within a specied time window.
+
+The apiLimiter variable congures the rate limiter with a time window of 15 minutes and a maximum of 100 requests per IP within that
+window. If the limit is exceeded, a message is sent to the client.
+*/
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
   message: "Too many requests from this IP, please try again after 15 minutes",
 });
 

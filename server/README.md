@@ -1,7 +1,7 @@
 ## Create Project
 ```
 npm init -y
-npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt cors express-rate-limit helmet
+npm install express mongoose jsonwebtoken dotenv stripe nodemailer bcryptjs bcrypt cors express-rate-limit helmet express-mongo-sanitize
 ```
 
 ## JSON Web Token JWT
@@ -99,9 +99,9 @@ Authorization: Bearer <token>
 ### Reduce Attack Surface: "Minimize Risk by Minimizing Exposure". The attack surface refers to the total number of points (like software, services, and ports) where an unauthorized user can try to enter data or extract data from the environment. Reducing the attack surface minimizes the potential entry points for attackers.
 ### To store passwords securely, we can use a hashing algorithm like bcrypt.
 ### Predictability of Hashes: For a given input and a known hashing algorithm, the generated hash will always be the same. Example: For the input "password", the hash might be asfdad123r2#$%. For the input "12345678", the hash might be asd12!@#%
-### Brute Force Attacks: If an attacker wants to break into a system, the rst step they might take is to perform a brute force attack using a dictionary of the most commonly used passwords and their corresponding hashes.
+### Brute Force Attacks: If an attacker wants to break into a system, the first step they might take is to perform a brute force attack using a dictionary of the most commonly used passwords and their corresponding hashes.
 ### The Role of Salting: Modern password hashing techniques use a 'salt' - a random value added to the password before hashing. This ensures that even common passwords result in unique hashes. For example, "password" with different salts won't hash to asfdad123r2#$% every time.
-### Why Salting Matters: Without salting, common passwords remain vulnerable because their hashes can be precomputed and stored in lookup tables (rainbow tables). Even if a system uses salts, if the salt is known to the attacker, they can still perform targeted attacks, but the use of unique salts for each password signicantly increases the complexity and time required for such attacks.
+### Why Salting Matters: Without salting, common passwords remain vulnerable because their hashes can be precomputed and stored in lookup tables (rainbow tables). Even if a system uses salts, if the salt is known to the attacker, they can still perform targeted attacks, but the use of unique salts for each password signicantly increases the complexity and time required for such attacks. The main purpose of a salt is to ensure that the same password does not always produce the same hash
 ### Generate a hash for password here - https://www.md5hashgenerator.com/
 ### Decrypt the hash here - https://10015.io/tools/md5-encrypt-decrypt#google_vignette
 ### Emphasizing the problem: A modern server can calculate the MD5 encryption at crazy speed. If your users have passwords which are lowercase, alphanumeric, and 6 characters long, you can try every single possible password of that size in around 40 seconds. By spending a 1000 dollars or so you can crack millions of commonly used passwords. Salts also do not help there.
@@ -110,28 +110,41 @@ Authorization: Bearer <token>
 ### https://codahale.com/how-to-safely-store-a-password/
 ### Bcrypt is not an encryption algorithm like SHA256; rather, it is a password hashing function. Bcrypt is specically designed for securing passwords. It turns a plain-text password into a hash, which is a fixed-size string of characters that uniquely represents the password. Bcrypt automatically handles salt generation. A salt is a random value added to the password before hashing to ensure that the same password results in different hashes.
 ### Work Factor: One of the key features of bcrypt is its work factor, which is a measure of how slow the hashing process is. The ability to adjust the work factor is crucial to keeping up with increasing computational power and maintaining the security of the hashes over time.
-### Hashing vs. Encryption: Encryption is a reversible process (you encrypt data to later decrypt it), while the hashing function that bcrypt uses is one-way (once you hash data, you can't turn the hash back into the original data).This is useful for storing passwords because even if the hash is exposed, the original password cannot be easily recovered. It stores hash when user register and in hash first string before . represent salt. When user login again, hashfunction use sam salt and incoming password and check whether generated hash same as hash stored in DB
+### Hashing vs. Encryption: Encryption is a reversible process (you encrypt data to later decrypt it), while the hashing function that bcrypt uses is one-way (once you hash data, you can't turn the hash back into the original data).This is useful for storing passwords because even if the hash is exposed, the original password cannot be easily recovered. When user register with password, bcrypt hashes a password, it incorporates the salt into the resulting hash and stores hash in DB. This means the hash stored in your database contains both the hashed password and the salt used. The format typically includes the salt, the cost factor (or salt rounds), and the hashed password. When a user attempts to log in, the system retrieves the stored bcrypt hash. Extracts the version, cost factor, and salt from the stored hash. Hashfunction hashes the provided password with the extracted salt and cost factor. Compares the newly generated hash with the stored hash.
 ### So the idea is that using bcrypt will make things a little slow so we use it only for the most sensitive data - password
 ### Owasp - https://owasp.org/www-project-top-ten/
-### Search for owasp bcrypt and open the cheatsheet for storage - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_ Cheat_Sheet.html
+### Search for owasp bcrypt and open the cheatsheet for storage - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 
+## Security - Rate Limiter
+### Denial of Service DoS, is a type of cyber attack where the attacker aims to make a website or online service unavailable to its users. They do this by overwhelming the service with an excessive amount of traffic or sending information that triggers a crash. This is where rate limiter comes in. A rate limiter is a mechanism used to control the number of requests a client can make to a server within a specic time frame. This helps to prevent abuse, ensure fair usage, and protect the server from being overwhelmed by too many requests in a short period
+### A Distributed Denial of Service (DDoS) attack is a specic type of Denial of Service (DoS) attack. Specialized DDoS protection services from cloud providers or third-party services like Cloudare, Akamai, or AWS Shield. These services can detect and mitigate large-scale DDoS attacks. Congure rewalls and routers to recognize and filter out malicious traffic.
 
+## Security - Helmet
+### Try loadng movies in home page. Open network tab and check the response headers. x-powered -by: express. Now an attacker knows that our backend is on express.
+###  Helmet applies a set of security headers to your application, reducing the risk of several well-known web vulnerabilities.
+### Cross-Site Scripting (XSS) Protection: Helmet sets the X-XSS-Protection header to enable the Cross-Site Scripting (XSS) filter built into most web browsers.
+### It sets the X-Frame-Options header to prevent your content from being embedded into other sites (restrict iframe).
+### Helmet helps in implementing Content Security Policy, a powerful tool to mitigate XSS and other injection attacks. By restricting where resources can be loaded from, CSP helps protect against XSS attacks, where attackers might try to inject malicious scripts into web content.
+- Cross-Site Scripting (XSS): A security vulnerability where attackers inject malicious scripts into web pages viewed by others.
+- Helmet: Middleware that helps set security-related HTTP headers to prevent various types of attacks, including XSS.
+- Content Security Policy (CSP): Helps prevent XSS by controlling the sources of content.
+- X-XSS-Protection: Helps prevent reected XSS attacks by enabling browser's XSS lter.
+- CORS: Cross-Origin Resource Sharing Helps control resource sharing and mitigate certain XSS attacks.
 
-create static build for react
-add path of it inside server to server static html file
-remove proxy from package.json
-Now cors issue will come so use cors module
+## Security - SQL Injection
+### SQL Injection is a code injection technique that exploits a security vulnerability in an application's software by manipulating the SQL queries made to the database. It typically occurs when user input is improperly sanitized and then included in SQL queries, allowing attackers to execute arbitrary SQL commands.
+### Imagine you have a form on your website where users can log in by entering their username and password. In an SQL injection attack, instead of typing a regular username, an attacker types in a sneaky piece of SQL code SQL injection can be prevented by properly validating and sanitizing user inputs [Ref](https://portswigger.net/web-security/nosql-injection#:~:text=NoSQL%20operator%20injection,-NoSQL%20databases%20often&text=Examples%20of%20MongoDB%20query%20operators,values%20specified%20in%20an%20array)
+### The express-mongo-sanitize package works by checking for keys in objects that begin with $ or contain .. These characters are used in MongoDB queries for operators and thus could be exploited for injection attacks. The middleware strips these characters from the input, effectively sanitizing it. By adding app.use(mongoSanitize());, the server ensures that any malicious input attempting to manipulate MongoDB queries is sanitized, providing a layer of protection against injection attacks.
 
-Render
-new 
-web service
-connect with github
-select repo to connect
-Build Command: cd client && npm install && npm run build && cd ../server && npm install  
-till build it is for frontend and rest for BE
-Start Command: cd server && npm start
-choose free
-add env variables
-DEPLOY
+## Deployment
+- Create static build for react
+- Add path of it inside server to server static html file
+- Remove proxy from package.json, Now cors issue will come so use cors module
+- src/api/index -> remove baseURL from axiosInstance or add baseURL as BE URL
+- Open (Render)[https://dashboard.render.com/], new -> web service -> connect with github -> select repo to connect
+- Add Build Command: cd client && npm install && npm run build && cd ../server && npm install  
+- Till npm run build it is for frontend and rest for BE
+- Add Start Command: cd server && npm start
+- choose free -> add env variables -> DEPLOY -> BE URL - https://bookmyshow-5ul0.onrender.com
 
 
