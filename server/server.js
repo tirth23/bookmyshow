@@ -14,17 +14,17 @@ const showRouter = require("./routes/showRoute");
 const bookingRouter = require("./routes/bookingRoute");
 
 const app = express();
-app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			defaultSrc: ["'self'"],
-			scriptSrc: ["'self'", "'unsafe-inline'"],
-			styleSrc: ["'self'", "https://fonts.googleapis.com"],
-			fontSrc: ["'self'", "https://fonts.gstatic.com"],
-			imgSrc: ["'self'", "data:"],
-		},
-	})
-);
+// app.use(
+// 	helmet.contentSecurityPolicy({
+// 		directives: {
+// 			defaultSrc: ["'self'"],
+// 			scriptSrc: ["'self'", "'unsafe-inline'"],
+// 			styleSrc: ["'self'", "https://fonts.googleapis.com"],
+// 			fontSrc: ["'self'", "https://fonts.gstatic.com"],
+// 			imgSrc: ["'self'", "data:"],
+// 		},
+// 	})
+// );
 
 // app.use(
 // 	helmet({
