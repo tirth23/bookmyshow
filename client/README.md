@@ -1,3 +1,6 @@
+### TO START DEV SERVER, ADD "proxy": "http://localhost:8082" in package.json
+### npm start
+
 ```
 npx create-react-app client
 npm install react-router-dom antd @ant-design/icons axios @reduxjs/toolkit react-redux moment react-stripe-checkout
